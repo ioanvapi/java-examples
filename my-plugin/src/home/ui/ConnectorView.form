@@ -67,7 +67,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <tabbedpane id="c0382" binding="tabbedPane" custom-create="true">
+          <tabbedpane id="c0382" binding="tabbedPane">
             <constraints>
               <splitpane position="left"/>
             </constraints>
