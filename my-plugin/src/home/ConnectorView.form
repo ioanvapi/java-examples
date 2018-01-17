@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="home.ui.ConnectorViewFactory">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="home.ConnectorViewFactory">
   <grid id="27dc6" binding="mainContent" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="1" vgap="1">
     <margin top="3" left="3" bottom="3" right="3"/>
     <constraints>
@@ -156,7 +156,7 @@
                           <toolTipText value="Refresh list of lambda functions"/>
                         </properties>
                       </component>
-                      <component id="e7c65" class="javax.swing.JButton" binding="button1" default-binding="true">
+                      <component id="e7c65" class="javax.swing.JButton" binding="refreshZipListButton">
                         <constraints>
                           <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -166,7 +166,7 @@
                           <toolTipText value="Refresh list of zip archives"/>
                         </properties>
                       </component>
-                      <component id="53ed9" class="javax.swing.JButton" binding="button2" default-binding="true">
+                      <component id="53ed9" class="javax.swing.JButton" binding="refreshRegionListButton">
                         <constraints>
                           <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
@@ -176,7 +176,7 @@
                           <toolTipText value="Refresh list of aws regions"/>
                         </properties>
                       </component>
-                      <component id="bd561" class="javax.swing.JButton" binding="button3" default-binding="true">
+                      <component id="bd561" class="javax.swing.JButton" binding="refreshProfilesListButton">
                         <constraints>
                           <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>

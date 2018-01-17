@@ -26,8 +26,16 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <toolWindow id="My Connector" anchor="right" secondary="true" factoryClass="home.ui.ConnectorViewFactory"
+        <toolWindow id="My Connector" anchor="right" secondary="true" factoryClass="home.ConnectorViewFactory"
                     icon="/icons/ConnectorIcon16.png"/>
+        <applicationService serviceInterface="home.services.SettingsService"
+                            serviceImplementation="home.services.SettingsServiceImpl"/>
+
+        <applicationService serviceInterface="home.PluginController"
+                            serviceImplementation="home.PluginControllerImpl"/>
+
+        <applicationService serviceInterface="home.services.AwsLambdaService"
+                            serviceImplementation="home.services.AwsLambdaServiceImpl"/>
     </extensions>
 
     <actions>
