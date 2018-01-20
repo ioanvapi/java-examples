@@ -27,15 +27,15 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
         <toolWindow id="My Connector" anchor="right" secondary="true" factoryClass="home.ConnectorViewFactory"
-                    icon="/icons/ConnectorIcon16.png"/>
+                    icon="/icons/ConnectorIcon13.png"/>
         <applicationService serviceInterface="home.services.SettingsService"
-                            serviceImplementation="home.services.SettingsServiceImpl"/>
+                            serviceImplementation="home.services.SettingsService"/>
 
         <applicationService serviceInterface="home.PluginController"
                             serviceImplementation="home.PluginControllerImpl"/>
 
-        <applicationService serviceInterface="home.services.AwsLambdaService"
-                            serviceImplementation="home.services.AwsLambdaServiceImpl"/>
+        <applicationService serviceInterface="home.services.AwsService"
+                            serviceImplementation="home.services.AwsServiceImpl"/>
     </extensions>
 
     <actions>

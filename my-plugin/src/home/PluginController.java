@@ -1,7 +1,10 @@
 package home;
 
 import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.project.Project;
+import home.model.ArtifactEntry;
+import home.model.FunctionEntry;
+import home.model.ProfileEntry;
+import home.model.RegionEntry;
 
 public interface PluginController {
 
@@ -20,4 +23,12 @@ public interface PluginController {
     void refreshZipArtifactList();
 
     void refreshProfilesList();
+
+    void setLambdaFunction(FunctionEntry entry);
+
+    void setRegion(RegionEntry entry);
+
+    void setProfile(ProfileEntry entry);
+
+    void setZipArtifact(ArtifactEntry entry);
 }

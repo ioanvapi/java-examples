@@ -15,6 +15,7 @@ import com.intellij.ui.content.ContentFactory;
 import home.model.FunctionEntry;
 import home.model.ProfileEntry;
 import home.model.RegionEntry;
+import home.services.SettingsService;
 import org.apache.log4j.AsyncAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -26,6 +27,8 @@ import javax.swing.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 
 import static home.StringUtil.getNotEmptyString;
@@ -33,6 +36,7 @@ import static org.apache.http.util.TextUtils.isEmpty;
 
 public class ConnectorViewFactory implements ToolWindowFactory {
 
+    private SettingsService settingsService = SettingsService.getInstance();
     private static final Logger logger = LogManager.getLogger(ConnectorViewFactory.class);
 
     private boolean operationInProgress = false;
@@ -68,13 +72,15 @@ public class ConnectorViewFactory implements ToolWindowFactory {
 
     public ConnectorViewFactory() {
         this.ctrl = PluginController.getInstance();
+        this.ctrl.setView(this);
 
         refreshFuncListButton.addActionListener(e -> runRefreshLambdaFunctionsList());
         refreshZipListButton.addActionListener(e -> runRefreshZipList());
         refreshRegionListButton.addActionListener(e -> runRefreshRegionList());
         refreshProfilesListButton.addActionListener(e -> runRefreshProfilesList());
-    }
 
+        functionList.addItemListener(this::setSelectedLambdaFunction);
+    }
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
@@ -86,60 +92,88 @@ public class ConnectorViewFactory implements ToolWindowFactory {
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
         Content content = contentFactory.createContent(mainContent, "", false);
         toolWindow.getContentManager().addContent(content);
-        logger.debug("createToolWindowContent() executed ...");
+
+        runRefreshAllLists();
+        logInfo("createToolWindowContent() executed ...");
+    }
+
+    private void setSelectedLambdaFunction(ItemEvent e) {
+        if (ignoreEvent(e)) {
+            return;
+        }
+        FunctionEntry entry = (FunctionEntry) e.getItem();
+        if (entry == null) {
+            return;
+        }
+        runOperation(project,
+                () -> ctrl.setLambdaFunction(entry),
+                "Select function: " + entry.toString());
+    }
+
+    private boolean ignoreEvent(ItemEvent e) {
+        return operationInProgress || e.getStateChange() != ItemEvent.SELECTED;
+    }
+
+
+
+
+    private void runRefreshAllLists() {
+        runOperation(project,
+                () -> {
+                    ctrl.refreshFunctionList();
+                    ctrl.refreshZipArtifactList();
+                    ctrl.refreshRegionList();
+                    ctrl.refreshProfilesList();
+                    ctrl.refreshStatus();
+                },
+                "Refresh all lists");
     }
 
     private void runRefreshLambdaFunctionsList() {
-        runOperation(() -> {
+        runOperation(project, () -> {
             ctrl.refreshFunctionList();
             ctrl.refreshStatus();
         }, "Refresh list of AWS Lambda functions");
     }
 
     private void runRefreshZipList() {
-        runOperation(() -> {
+        runOperation(project, () -> {
             ctrl.refreshZipArtifactList();
             ctrl.refreshStatus();
         }, "Refresh list of JAR-artifacts in the project");
     }
 
     private void runRefreshRegionList() {
-        runOperation(() -> {
+        runOperation(project, () -> {
             ctrl.refreshRegionList();
             ctrl.refreshStatus();
         }, "Refresh list of AWS regions");
     }
 
     private void runRefreshProfilesList() {
-        runOperation(() -> {
+        runOperation(project, () -> {
             ctrl.refreshProfilesList();
             ctrl.refreshStatus();
         }, "Refresh list of credential profiles");
     }
 
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
-
     public void setFunctionList(List<FunctionEntry> functions, FunctionEntry selectedFunctionEntry) {
         functionList.removeAllItems();
         for (FunctionEntry entry : functions) {
-            if (entry.getRuntime().equals(Runtime.Java8)) {
-                functionList.addItem(entry);
-            }
+            functionList.addItem(entry);
         }
-        if(selectedFunctionEntry != null){
+        if (selectedFunctionEntry != null) {
             functionList.setSelectedItem(selectedFunctionEntry);
         }
     }
 
-    public void setRegionList(List<RegionEntry> regions, Regions selectedRegion) {
+    public void setRegionList(List<RegionEntry> regions, String selectedRegionName) {
         regionsList.removeAllItems();
         RegionEntry selectedRegionEntry = null;
         for (RegionEntry entry : regions) {
             regionsList.addItem(entry);
-            if (selectedRegion != null && entry.getName().equals(selectedRegion.getName())) {
+            if (selectedRegionName != null && entry.getName().equals(selectedRegionName)) {
                 selectedRegionEntry = entry;
             }
         }
@@ -152,7 +186,7 @@ public class ConnectorViewFactory implements ToolWindowFactory {
     public void setProfilesList(List<ProfileEntry> profiles, String selectedProfile) {
         profilesList.removeAllItems();
         ProfileEntry selectedProfileEntry = null;
-        for(ProfileEntry entry : profiles) {
+        for (ProfileEntry entry : profiles) {
             profilesList.addItem(entry);
             if (!isEmpty(selectedProfile) && entry.getName().equals(selectedProfile)) {
                 selectedProfileEntry = entry;
@@ -162,18 +196,6 @@ public class ConnectorViewFactory implements ToolWindowFactory {
         if (selectedProfileEntry != null) {
             profilesList.setSelectedItem(selectedProfileEntry);
         }
-    }
-
-    public void logInfo(String format, Object... args) {
-        logger.info(String.format(format, args));
-    }
-
-    public void logDebug(String format, Object... args) {
-        logger.debug(String.format(format, args));
-    }
-
-    public void logError(String format, Object... args) {
-        logger.error(String.format(format, args));
     }
 
     public void refreshStatus(String function, String artifact, String region, String regionDescription, String credentialProfile) {
@@ -190,6 +212,20 @@ public class ConnectorViewFactory implements ToolWindowFactory {
                 getNotEmptyString(credentialProfile, "?")
         ));
     }
+
+
+    public void logInfo(String format, Object... args) {
+        logger.info(String.format(format, args));
+    }
+
+    public void logDebug(String format, Object... args) {
+        logger.debug(String.format(format, args));
+    }
+
+    public void logError(String format, Object... args) {
+        logger.error(String.format(format, args));
+    }
+
 
     private void prepareUiLogger() {
         logger.addAppender(new AsyncAppender() {
@@ -227,7 +263,7 @@ public class ConnectorViewFactory implements ToolWindowFactory {
     }
 
 
-    private void runOperation(Runnable runnable, final String format, Object... args) {
+    private void runOperation(Project project, Runnable runnable, final String format, Object... args) {
         String title = String.format(format, args);
         if (operationInProgress)
             return;
@@ -251,8 +287,9 @@ public class ConnectorViewFactory implements ToolWindowFactory {
                             MessageHelper.showError(project, t.getMessage());
                             logError(t.getMessage());
                         } else {
-                            MessageHelper.showCriticalError(project, t);
+                            System.out.printf("### Message is: '%s'", t.getMessage());
                             logError(t.getMessage());
+                            MessageHelper.showCriticalError(project, t);
                         }
                     } finally {
                         setControlsEnabled(true);
@@ -264,7 +301,6 @@ public class ConnectorViewFactory implements ToolWindowFactory {
             MessageHelper.showError(project, t);
         }
     }
-
 
 
 }

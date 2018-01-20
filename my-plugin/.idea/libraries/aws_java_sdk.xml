@@ -1,16 +1,16 @@
 <component name="libraryTable">
   <library name="aws-java-sdk">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/aws-java-sdk-core-1.11.154.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/aws-java-sdk-lambda-1.11.154.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/aws-java-sdk-core-1.11.265.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/aws-java-sdk-lambda-1.11.265.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$PROJECT_DIR$/lib/aws-java-sdk-core-1.11.154-javadoc.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/aws-java-sdk-lambda-1.11.154-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/aws-java-sdk-core-1.11.265-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/aws-java-sdk-lambda-1.11.265-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$PROJECT_DIR$/lib/aws-java-sdk-core-1.11.154-sources.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/aws-java-sdk-lambda-1.11.154-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/aws-java-sdk-core-1.11.265-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/aws-java-sdk-lambda-1.11.265-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

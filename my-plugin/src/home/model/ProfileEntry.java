@@ -8,13 +8,19 @@ import static org.apache.http.util.TextUtils.isEmpty;
 * */
 public class ProfileEntry {
     private final BasicProfile basicProfile;
+    private final RegionEntry region;
 
-    public ProfileEntry(BasicProfile basicProfile) {
+    public ProfileEntry(BasicProfile basicProfile, RegionEntry region) {
         this.basicProfile = basicProfile;
+        this.region = region;
     }
 
     public String getName() {
         return this.basicProfile.getProfileName();
+    }
+
+    public RegionEntry getRegionEntry() {
+        return region;
     }
 
     public BasicProfile getBasicProfile() {
@@ -23,8 +29,7 @@ public class ProfileEntry {
 
     @Override
     public String toString() {
-        String region = this.basicProfile.getRegion();
-        String profileName = isEmpty(region) ? "no region" : region ;
-        return String.format("%s (%s)", getName(), profileName);
+        String regionStr = isEmpty(this.region.getName()) ? "no region" : this.region.toString() ;
+        return String.format("%s (%s)", getName(), regionStr);
     }
 }
