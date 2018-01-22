@@ -68,6 +68,9 @@ public class ConnectorViewFactory implements ToolWindowFactory {
     private JComboBox<ProfileEntry> profilesList;
     private JComboBox<Level> logLevelsList;
     private JComboBox zipArchivesList;
+    private JButton runTestButton;
+    private JButton openInputTestFileButton;
+    private JButton clearLogButton;
 
 
     public ConnectorViewFactory() {
