@@ -1,17 +1,16 @@
 <idea-plugin>
     <id>com.home.id</id>
-    <name>My Connector plugin</name>
+    <name>AWS Lambda</name>
     <version>1.0</version>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <vendor email="support@home.com" url="http://www.home.com">YourCompany</vendor>
 
     <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+      This tool allows you to update an aws lambda function for Go runtime.<br>
+      It uses aws user profiles configured locally.<br>
+      Based on: https://plugins.jetbrains.com/plugin/9886-connector-for-aws-lambda<br>
     ]]></description>
 
     <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
     ]]>
     </change-notes>
 
@@ -26,7 +25,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <toolWindow id="My Connector" anchor="bottom" secondary="true" factoryClass="home.ConnectorViewFactory"
+        <toolWindow id="AWS Lambda" anchor="bottom" secondary="true" factoryClass="home.ConnectorViewFactory"
                     icon="/icons/lambda_logo.png"/>
         <applicationService serviceInterface="home.services.SettingsService"
                             serviceImplementation="home.services.SettingsService"/>

@@ -81,9 +81,12 @@ public class ConnectorViewFactory implements ToolWindowFactory {
         refreshZipListButton.addActionListener(e -> runRefreshZipList());
         refreshRegionListButton.addActionListener(e -> runRefreshRegionList());
         refreshProfilesListButton.addActionListener(e -> runRefreshProfilesList());
+        clearLogButton.addActionListener(e -> runClearLog());
 
         functionList.addItemListener(this::setSelectedLambdaFunction);
     }
+
+
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
@@ -158,6 +161,10 @@ public class ConnectorViewFactory implements ToolWindowFactory {
             ctrl.refreshProfilesList();
             ctrl.refreshStatus();
         }, "Refresh list of credential profiles");
+    }
+
+    private void runClearLog() {
+        logTextBox.setText("");
     }
 
 
